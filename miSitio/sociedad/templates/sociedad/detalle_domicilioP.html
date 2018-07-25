@@ -1,0 +1,65 @@
+{% extends 'site_base.html' %}
+{% load i18n %}
+{% load bootstrap %}
+{% block head_title %}{% trans "Actualizar domicilio" %}{% endblock %}
+
+
+  {% block body %}
+    {% block content %}
+<div class="container">
+        <div class="post">
+          
+                      
+        </div>
+
+<div class="col-xs-9 col-md-7 profile-details">
+
+  <table class="table table-user-profile">
+ <h1>Dirección profesional {{ domicilioProfesional.codigo_Institucion }} </h1>
+    <tbody>
+      <tr>
+        <td class="table-user-profile-attribute"><b> Código de la Institución</b></td>
+            <td>{{ domicilioProfesional.codigo_institucion }} </td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute"><b> Código Postal</b></td>
+            <td>{{ domicilioProfesional.codigo_postal }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute"><b>Institución</b></td>
+        <td>{{ domicilioProfesional.institucion }} </td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute"><b>Dependencia</b></td>
+        <td>{{ domicilioProfesional.dependencia }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute"><b>Calle y numero o apartado postal</b></td>
+        <td>{{ domicilioProfesional.calle_numero_apartado_postal }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute"><b>Colonia</b></td>
+        <td>{{ domicilioProfesional.colonia }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute"><b>Estado, municipio y ciudad</b></td>
+        <td>{{ domicilioProfesional.estado_municipio_ciudad }}</td>
+      </tr>
+        <td class="table-user-profile-attribute"><b>Telefono</b></td>
+        <td>{{ domicilioProfesional.telefono }}</td>
+      </tr>
+        <td class="table-user-profile-attribute"><b>Correo electrónico</b></td>
+        <td>{{ domicilioProfesional.correo_electronico }}</td>
+      </tr>
+      <tr>
+      <tr>
+      <tr>
+
+    </tbody>
+
+  </table>
+ <a class="btn btn-success" href="{% url 'editar_domicilio' pk=domicilioProfesional.pk %}">Editar  <span class="glyphicon glyphicon-pencil"></span></a>
+</div>
+    </div>
+      {% endblock %}
+{% endblock %}

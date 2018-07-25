@@ -1,0 +1,40 @@
+{% extends 'site_base.html' %}
+{% load i18n %}
+{% load bootstrap %}
+{% block head_title %}{% trans "Actualizar domicilio" %}{% endblock %}
+
+ {% block body %}
+    {% block content %}
+<div class="container">
+<div class="page-header">
+  <h2 class="page-title">Cuotas del socio {{ socio.user.first_name}} {{ socio.user.last_name }} {{ socio.apellido_materno}} </h2>
+</div>
+  
+
+<div class="col-xs-9 col-md-7 profile-details">
+<table class="table table-striped">
+   <thead class="thead-inverse">
+      <tr>
+        <th>Fecha de pago</th>
+        <th>Vencimiento</th>
+        <th>Número de factura</th>
+        <th>Cantidad</th>
+      </tr>
+    </thead>
+    <tbody>
+{%for cuota in cuotas%}
+ <tr>
+        <td>{{cuota.fecha_pago }}</td>
+        <td>{{cuota.fecha_fin}}</td>
+        <td>{{cuota.numero_factura}}</td>
+       <td>{{cuota.cantidad}}</td>
+      </tr>
+{% endfor %}
+    </tbody>
+  </table>
+ <a class="btn btn-info" href="{% url 'cargar_cuota'%}"> <span class="glyphicon glyphicon-plus"></span> Agregar una cuota</a>
+</div>
+</div>
+
+    {% endblock %}
+    {% endblock %}

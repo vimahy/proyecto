@@ -1,0 +1,16 @@
+django-user-accounts==2.0.1
+pinax-webanalytics==3.0.0
+pinax-eventlog==1.1.2
+
+
+Django==1.11
+pinax-theme-bootstrap==8.0.1
+django-autocomplete-light
+django-bootstrap3-datetimepicker
+django-datetime-widget
+
+psycopg2
+gunicorn
+reportlab
+django-forms-bootstrap
+django-countries

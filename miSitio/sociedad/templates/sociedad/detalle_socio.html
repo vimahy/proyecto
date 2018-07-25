@@ -1,0 +1,121 @@
+{% extends 'site_base.html' %}
+{% load i18n %}
+{% load bootstrap %}
+{% block head_title %}{% trans "Actualizar datos del socio" %}{% endblock %}
+
+ {% block body %}
+    {% block content %}
+<div class="container">
+
+        <form method="POST" class="post-form">{% csrf_token %}
+                <legend> <h1>{% trans "Actualizar datos del socio" %}</h1> </legend>
+<table>
+<div class="col-xs-9 col-md-7 profile-details">
+  <table class="table table-user-profile">
+    <tbody>
+      <tr>
+        <td class="table-user-profile-attribute">Número de socio:</td>
+            <td>{{ socio.numero_socio }} </td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Nombre(s)</td>
+        <td>{{ socio.user.first_name }} </td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Apellido Paterno:</td>
+        <td>{{ socio.user.last_name }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Apellido Materno:</td>
+        <td>{{ socio.apellido_materno }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Sexo:</td>
+            <td>{{ socio.sexo }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Grado académico:</td>
+        <td>{{ socio.grado_academico }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Institucion:</td>
+        <td>{{ socio.institucion }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Publicaciones:</td>
+<td>
+{% for publicacion in socio.publicacion.all %}
+       <p>{{ publicacion }} </p>
+{%  endfor %}
+</td>
+      </tr>
+       <tr>
+        <td class="table-user-profile-attribute">Tipo de socio:</td>
+        <td>{{ socio.calidad }}</td>
+      </tr>
+      <tr>
+      <tr>
+        <td class="table-user-profile-attribute">Correo electrónico:</td>
+        <td> 
+                {{ socio.user.email }}
+        </td>
+      </tr>
+ <tr>
+        <td class="table-user-profile-attribute">Telefono:</td>
+        <td> 
+                {{ socio.telefono }}
+        </td>
+      </tr>
+        <td class="table-user-profile-attribute">Fecha de ingreso:</td>
+        <td>{{ socio.fecha_ingreso }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Divisiones:</td>
+
+ <td>
+{%for division in socio.division.all %}
+
+            <p>{{ division }} </p>
+{%  endfor %}
+
+</td>
+
+
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Domicilio profesional:</td>
+            <td>{{ socio.domicilioprofesional.institucion }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Código postal:</td>
+            <td>{{ socio.domicilio.codigo_postal }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Calle y número:</td>
+            <td>{{ socio.domicilio.calle_numero_apartado_postal }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Colonia:</td>
+            <td>{{ socio.domicilio.colonia }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Municipio o delegación:</td>
+            <td>{{ socio.domicilio.municipio_delegacion}}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Ciudad y Estado:</td>
+            <td>{{ socio.domicilio.ciudad_y_estado }}</td>
+      </tr>
+        <td class="table-user-profile-attribute">Teléfono:</td>
+            <td>{{ socio.domicilio.telefono }}</td>
+      </tr>
+    </tbody>
+
+</table>
+         <a class="btn btn-info" href="{% url 'editar_socio' pk=socio.pk %}"> <span class="glyphicon glyphicon-pencil"></span> Editar</a>
+        </form>
+    </div>
+
+
+    {% endblock %}
+{% endblock %}

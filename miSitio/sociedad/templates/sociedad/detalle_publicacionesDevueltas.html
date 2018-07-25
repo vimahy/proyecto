@@ -1,0 +1,48 @@
+{% extends 'site_base.html' %}
+{% load i18n %}
+{% load bootstrap %}
+{% block head_title %}{% trans "Cuota" %}{% endblock %}
+
+
+{% block body %}
+{% block content %}
+<div class="container">
+        <div class="post">
+
+                      
+        </div>
+
+<div class="col-xs-9 col-md-7 profile-details">
+
+  <table class="table table-user-profile">
+ <h1>Publicacion devuelta</h1>	
+    <tbody>
+      <tr>
+        <td class="table-user-profile-attribute"><b> Nombre</b></td>
+        <td>{{ publicacion.socio }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Fecha de envio:</td>
+        <td>{{ publicacion.fecha_envio }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Estado</td>
+        <td>{{ publicacion.estatus }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Publicación</td>
+        <td>{{ publicacion.publicacion }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute">Comentario</td>
+        <td>{{ publicacion.comentario }}</td>
+      </tr>
+    </tbody>
+  </table>
+ <a class="btn btn-success" href="{% url 'editar_publicacion' pk=publicacion.pk %}"> Editar <span class="glyphicon glyphicon-pencil"></span></a>
+</div>
+</div>
+
+{% endblock %}
+{% endblock %}
+

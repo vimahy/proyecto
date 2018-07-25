@@ -1,0 +1,28 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load bootstrap %}
+
+{% block body_class %}account account-settings{% endblock %}
+
+{% block head_title %}{% trans "Perfil" %}{% endblock %}
+
+{% block body %}
+    <div class="row">
+
+            <form method="POST" action="{% url "account_settings" %}">
+                <legend>{% trans "Perfil" %}</legend>
+ <ul class="list-group">
+
+                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Número de socio</strong></span>  {{ user.account.numero_socio}}</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong class="">Vencimiento cuota</strong></span>  {{ user.account.cuota_set.last.fecha_fin}} </li>
+                      </li>
+</ul>
+                {% csrf_token %}
+
+                {{ form|bootstrap }}
+                <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

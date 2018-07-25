@@ -1,0 +1,50 @@
+{% load i18n %}
+{% load account_tags %}
+
+
+<ul class="nav navbar-nav pull-right">
+    {% if request.user.is_authenticated %} 
+	   <li class="dropdown">
+<a    aria-expanded="false">{{ user.username}}</span></a>
+   
+  {% if user.is_staff %}
+    <li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ user.username}} <span class="caret"></span></a>
+         {% endif %}
+	          <ul class="dropdown-menu" role="menu">
+	            <li><a href="/">Inicio</a></li>
+	            <li class="divider"></li>
+                {% if request.user.is_superuser %}
+          	            <li><a href="{% url 'admin:index' %}">Sitio de Administración</a></li>
+                {% endif %}
+	            <li class="divider"></li>
+	            <li><a href="{% url 'cargar_socio' %}">Agregar Socio</a></li>
+	            <li class="divider"></li>
+	            <li><a href="{% url 'cargar_cuota' %}">Agregar cuota </a></li>
+	            <li class="divider"></li>
+	            <li> <a href="{% url 'cargar_publicacion' %}"> Registrar una publiación devuelta</a></li>
+	            <li class="divider"></li>
+	            <li> <a href="{% url 'cargar_domicilio' %}"> Agregar domicilio profesional</a></li>
+	            <li class="divider"></li>
+	            <li> <a href="{% url 'tarjetas' %}"> Buscar Socio </a></li>
+	            <li class="divider"></li>
+	            <li><a href="{% url 'account_logout' %}">Salir</a></li>
+	          </ul>
+	        </li>
+        <li>
+            <a href="{% url 'account_settings' %}"><i class="fa fa-cog"></i> {% trans "Ajustes" %}</a>
+        </li>
+        <li>
+            <a id="account_logout" href="{% url 'account_logout' %}"><i class="fa fa-power-off"></i> {% trans "Log out" %}</a>
+        </li>
+    {% else %}
+        <li><a href="{% url 'account_login' %}">{% trans "Log in" %}</a></li>
+        {% if ACCOUNT_OPEN_SIGNUP %}
+            <li><a href="{% url 'account_signup' %}">{% trans "Sign up" %}</a></li>
+        {% endif %}
+    {% endif %}
+</ul>
+
+<form id="accountLogOutForm" style="display: none;" action="{% url 'account_logout' %}" method="POST">
+    {% csrf_token %}
+</form>

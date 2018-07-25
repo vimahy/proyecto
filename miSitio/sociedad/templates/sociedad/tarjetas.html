@@ -1,0 +1,318 @@
+{% extends 'site_base.html' %}
+{% load i18n %}
+{% load bootstrap %}
+{% block head_title %}{% trans "Actualizar domicilio" %}{% endblock %}
+
+ {% block body %}
+    {% block content %}
+      <div class="row">
+                          <div class="col-sm-3 col-md-2 sidebar">
+<div class="sidebar-nav navbar-collapse">
+                    <ul class="nav in" id="side-menu">
+
+ <h3>Búsqueda por:</h3> 
+<li class="sidebar-search">
+ <div class="input-group custom-search-form">
+    <h5>Nombre</h5> 
+<form action="" method="get">
+        <input type="text" name="n"class="form-control" placeholder="Busqueda">
+      	  <input type="submit" value="Buscar"> <input type="reset" value="Limpiar">
+</form>
+</div>
+</li>
+
+
+
+<li class="sidebar-search">
+ <div class="input-group custom-search-form">
+    <h>Apellido paterno</h5> 
+<form action="" method="get">
+        <input type="text" name="ap"class="form-control" placeholder="Busqueda">
+      	  <input type="submit" value="Buscar"> <input type="reset" value="Limpiar">
+</form>
+</div>
+</li>
+
+<li class="sidebar-search">
+ <div class="input-group custom-search-form">
+    <h5>Búsqueda por apellido materno</h5> 
+<form action="" method="get">
+        <input type="text" name="am"class="form-control" placeholder="Búsqueda por apellido materno">
+      	  <input type="submit" value="Buscar"> <input type="reset" value="Limpiar">
+</form>
+</div>
+</li>
+
+<li class="sidebar-search">
+ <div class="input-group custom-search-form">
+    <h5>Institución</h5> 
+<form action="" method="get">
+        <input type="text" name="i"class="form-control" placeholder="Institución">
+      	  <input type="submit" value="Buscar"> <input type="reset" value="Limpiar">
+</form>
+</div>
+</li>
+
+
+
+
+
+
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+ <h5>Búsqueda por número de socio</h5> 
+<form action="" method="get">
+        <input type="number" min="1" name="q" class="form-control" placeholder="Busqueda">
+      	<input type="submit" value="Buscar"><input type="reset" value="Limpiar">
+     </form>                              
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+
+
+
+
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+    <h5>Búsqueda por periodo de cuotas</h5> 
+<form action="" method="get">
+     De  <input type="date" class="form-control" name="inicio"> <br>a <input type="date" class="form-control" name="fin">
+      	  <input type="submit"   value="Buscar"> <input type="reset" value="Limpiar">
+     </form>
+                              
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+
+
+
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+    <h5>Imprimir tarjetas</h5> 
+
+ <form method="get"> <input type="submit"  value="Cuotas vigentes" name="vigente" id="start_submit" class="btn btn-danger"/></form>
+
+                              
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                      
+
+
+                    </ul>
+                </div>
+                                   </div>
+
+        <div class="col-sm-6 col-sm-offset-2 col-md-8 col-md-offset-0 main">
+  {% if numero %}
+   <h3>Resultados para "{{ query|escape }}":</h3>
+ <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+  <thead>
+    <tr>
+      <th>Apellido Paterno</th>
+      <th>Apellido Materno</th>
+      <th>Nombre(s)</th>
+      <th>Número de socio</th>
+      <th>Dirección Particular</th>
+      <th>Dirección Profesional</th>
+      <th>Vencimiento de Cuota</th>
+    </tr>
+  </thead>
+  <tbody>
+
+      <tr>
+      <td><a href="socio/{{ numero.pk }}"</a> {{ numero.user.last_name|escape }} </td>
+      <td><a href="socio/{{ numero.pk }}"</a> {{ numero.apellido_materno|escape }} </td>
+      <td><a href="socio/{{ numero.pk }}"</a> {{ numero.user.first_name|escape }} </td>
+      <td><a href="socio/{{ numero.pk }}"</a> {{ numero.numero_socio|escape }} </td>
+      <td><a href="socio/{{ numero.pk }}"</a> {{ numero.domicilio|escape }} </td>
+ <td><a href="domicilio/{{ numero.domicilioprofesional.pk }}"</a> {{ numero.domicilioprofesional.institucion|escape }}</td>
+   <td><a href="socio/{{ numero.pk }}/cuotas"</a>  {{ numero.cuota_set.last }} </td>
+    </tr>
+
+  </tbody>
+</table>
+          
+    {% endif %}
+
+
+  {% if socios %}
+   <h3>Resultados para "{{ query|escape }}":</h3>
+ <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+  <thead>
+    <tr>
+      <th>Apellido Paterno</th>
+      <th>Apellido Materno</th>
+      <th>Nombre(s)</th>
+      <th>Número de socio</th>
+      <th>Dirección Particular</th>
+      <th>Dirección Profesional</th>
+      <th>Vencimiento de Cuota</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for socio in socios %}
+      <tr>
+      <td><a href="socio/{{ socio.pk }}"</a> {{ socio.last_name|escape }} </td>
+      <td><a href="socio/{{ socio.pk }}"</a> {{ socio.account.apellido_materno|escape }} </td>
+      <td><a href="socio/{{ socio.pk }}"</a> {{ socio.first_name|escape }} </td>
+      <td><a href="socio/{{ socio.pk }}"</a> {{ socio.account.numero_socio|escape }} </td>
+      <td><a href="socio/{{ socio.pk }}"</a> {{ socio.account.domicilio|escape }} </td>
+ <td><a href="domicilio/{{ socio.account.domicilioprofesional.pk }}"</a> {{ socio.account.domicilioprofesional.institucion|escape }}</td>
+   <td><a href="socio/{{ socio.pk }}/cuotas"</a>  {{ socio.account.cuota_set.last }} </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+          
+    {% endif %}
+
+  {% if usuarios %}
+   <h3>Resultados para "{{ query|escape }}":</h3>
+ <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+  <thead>
+    <tr>
+      <th>Apellido Paterno</th>
+      <th>Apellido Materno</th>
+      <th>Nombre(s)</th>
+      <th>Número de socio</th>
+      <th>Dirección Particular</th>
+      <th>Dirección Profesional</th>
+      <th>Vencimiento de Cuota</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for socios in usuarios %}
+      <tr>
+      <td><a href="socio/{{ socios.pk }}"</a> {{ socios.user.last_name|escape }} </td>
+      <td><a href="socio/{{ socios.pk }}"</a> {{ socios.apellido_materno|escape }} </td>
+      <td><a href="socio/{{ socios.pk }}"</a> {{ socios.user.first_name|escape }} </td>
+      <td><a href="socio/{{ socios.pk }}"</a> {{ socios.numero_socio|escape }} </td>
+      <td><a href="socio/{{ socios.pk }}"</a> {{ socios.domicilio|escape }} </td>
+ <td><a href="domicilio/{{ socios.domicilioprofesional.pk }}"</a> {{ socios.domicilioprofesional.institucion|escape }}</td>
+   <td><a href="socio/{{ socios.pk }}/cuotas"</a>  {{ socios.cuota_set.last }} </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+          
+    {% endif %}
+
+
+
+  {% if paternos %}
+   <h3>Resultados para "{{ query|escape }}":</h3>
+ <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+  <thead>
+    <tr>
+      <th>Apellido Paterno</th>
+      <th>Apellido Materno</th>
+      <th>Nombre(s)</th>
+      <th>Número de socio</th>
+      <th>Dirección Particular</th>
+      <th>Dirección Profesional</th>
+      <th>Vencimiento de Cuota</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for socios in paternos %}
+      <tr>
+      <td><a href="socio/{{ socios.pk }}"</a> {{ socios.last_name|escape }} </td>
+      <td><a href="socio/{{ socios.pk }}"</a> {{ socios.account.apellido_materno|escape }} </td>
+      <td><a href="socio/{{ socios.pk }}"</a> {{ socios.first_name|escape }} </td>
+      <td><a href="socio/{{ socios.pk }}"</a> {{ socios.account.numero_socio|escape }} </td>
+      <td><a href="socio/{{ socios.pk }}"</a> {{ socios.account.domicilio|escape }} </td>
+ <td><a href="domicilio/{{ socios.account.domicilioprofesional.pk }}"</a> {{ socios.account.domicilioprofesional.institucion|escape }}</td>
+   <td><a href="socio/{{ socios.pk }}/cuotas"</a>  {{ socios.account.cuota_set.last }} </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+          
+    {% endif %}
+
+
+
+
+  {% if institucion %}
+   <h3>Resultados para "{{ query|escape }}":</h3>
+ <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+  <thead>
+    <tr>
+      <th>Apellido Paterno</th>
+      <th>Apellido Materno</th>
+      <th>Nombre(s)</th>
+      <th>Número de socio</th>
+      <th>Dirección Particular</th>
+      <th>Dirección Profesional</th>
+      <th>Vencimiento de Cuota</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for cuota in institucion %}
+      <tr>
+      <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.user.last_name|escape }} </td>
+      <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.apellido_materno|escape }} </td>
+      <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.user.first_name|escape }} </td>
+      <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.numero_socio|escape }} </td>
+      <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.domicilio|escape }} </td>
+ <td><a href="domicilio/{{ cuota.domicilioprofesional.pk }}"</a> {{ cuota.domicilioprofesional.institucion|escape }}</td>
+   <td><a href="socio/{{ cuota.pk }}/cuotas"</a>  {{ cuota.cuota_set.last }} </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+          
+    {% endif %}
+
+
+
+
+
+
+
+
+
+
+  {% if cuota %}
+   <h3>Resultados para "{{ query|escape }}":</h3>
+
+ <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+  <thead>
+    <tr>
+      <th>Apellido Paterno</th>
+      <th>Apellido Materno</th>
+      <th>Nombre(s)</th>
+      <th>Número de socio</th>
+      <th>Dirección Particular</th>
+      <th>Dirección Profesional</th>
+      <th>Vencimiento de Cuota</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {% for cuota in cuota %}
+      <tr>
+      <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.user.last_name|escape }} </td>
+      <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.apellido_materno|escape }} </td>
+      <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.user.first_name|escape }} </td>
+      <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.numero_socio|escape }} </td>
+      <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.domicilio|escape }} </td>
+ <td><a href="domicilio/{{ cuota.domicilioprofesional.pk }}"</a> {{ cuota.domicilioprofesional.institucion|escape }}</td>
+   <td><a href="socio/{{ cuota.pk }}/cuotas"</a>  {{ cuota.cuota_set.last }} </td>
+    </tr>
+  {% endfor %}
+
+
+  </tbody>
+</table>
+          
+    {% endif %}
+
+</body>
+</html>
+    {% endblock %}
+    {% endblock %}

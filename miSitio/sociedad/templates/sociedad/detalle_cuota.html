@@ -1,0 +1,58 @@
+{% extends 'site_base.html' %}
+{% load i18n %}
+{% load bootstrap %}
+{% block head_title %}{% trans "Cuota" %}{% endblock %}
+
+
+{% block body %}
+{% block content %}
+<div class="container">
+        <div class="post">
+
+                      
+        </div>
+
+<div class="col-xs-9 col-md-7 profile-details">
+
+  <table class="table table-user-profile">
+ <h1>Datos del Pago</h1>	
+    <tbody>
+      <tr>
+        <td class="table-user-profile-attribute"><b> Nombre</b></td>
+            <td>{{ cuota.socio.user.first_name }}  {{ cuota.socio.user.last_name }} {{ cuota.socio.apellido_materno }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute"><b> Número del Socio</b></td>
+             <td>{{ cuota.socio.numero_socio }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute"><b>Fecha del Pago</b></td>
+      <td>{{ cuota.fecha_pago }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute"><b>Fecha de Termino</b></td>
+        <td>{{ cuota.fecha_fin }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute"><b>Cantidad</b></td>
+         <td>{{ cuota.cantidad }}</td>
+      </tr>
+      <tr>
+        <td class="table-user-profile-attribute"><b>Código de factura</b></td>
+        <td>{{ cuota.numero_factura }}</td>
+      </tr>
+      <tr>
+      <tr>
+      <tr>
+
+    </tbody>
+
+  </table>
+ <a class="btn btn-success" href="{% url 'editar_cuota' pk=cuota.pk %}">Editar <span class="glyphicon glyphicon-pencil"></span></a>
+</div>
+
+    </div>
+
+
+{% endblock %}
+{% endblock %}

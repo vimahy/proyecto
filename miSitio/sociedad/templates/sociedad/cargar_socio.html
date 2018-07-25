@@ -1,0 +1,29 @@
+{% extends 'site_base.html' %}
+{% load i18n %}
+{% load bootstrap %}
+{% block head_title %}{% trans "Agregar Socio" %}{% endblock %}
+
+
+ {% block body %}
+    {% block content %}
+<div class="container">
+
+
+        <form method="POST" class="post-form">{% csrf_token %}
+                <legend> <h1>{% trans "Agregar Socio" %}</h1> </legend>
+<table>
+            {{ form|bootstrap }}
+</table>
+
+                <legend> <h1>{% trans "Domicilio Particular" %}</h1> </legend>
+
+<table>
+            {{ domicilioFormset|bootstrap }}
+</table>
+ <div class="form-actions">
+ <button type="submit" class="save btn btn-success">Guardar</button>
+    </div>
+        </form>
+</div>
+    {% endblock %}
+{% endblock %}

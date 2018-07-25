@@ -1,0 +1,22 @@
+{% extends 'site_base.html' %}
+{% load i18n %}
+{% load bootstrap %}
+{% block head_title %}{% trans "Editar Registro" %}{% endblock %}
+
+ {% block body %}
+    {% block content %}
+<div class="container">
+
+        <form method="POST" class="post-form">{% csrf_token %}
+                <legend> <h1>{% trans "Editar Registro" %}</h1> </legend>
+<table>
+         {{ form|bootstrap   }}
+
+</table>
+            <button type="submit" class="save btn btn-success">Guardar</button>
+        </form>
+    </div>
+
+
+    {% endblock %}
+{% endblock %}

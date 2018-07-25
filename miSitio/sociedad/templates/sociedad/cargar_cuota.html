@@ -1,0 +1,22 @@
+{% extends 'site_base.html' %}
+{% load i18n %}
+{% load bootstrap %}
+{% block head_title %}{% trans "Actualizar domicilio" %}{% endblock %}
+
+ {% block body %}
+    {% block content %}
+
+<div class="container">
+        <h1>Cargar Cuota</h1>
+        <form method="POST" class="post-form">{% csrf_token %}
+<table>
+             {{ cuotaForm|bootstrap  }}
+</table>
+
+    <div class="form-actions">
+            <button type="submit" class="save btn btn-success">Guardar</button>
+    </div>
+        </form>
+    {% endblock %}
+
+{% endblock %}

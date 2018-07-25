@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load bootstrap_tags %}
+    {% block content %}
+<div class="container">
+        <h1>Cargar Cuota</h1>
+ {{ socio.nombre}}
+        <form method="POST" class="post-form">{% csrf_token %}
+<table>
+            {{ cuotaForm.as_table }}
+</table>
+            <button type="submit" class="save btn btn-success">Guardar</button>
+
+        </form>
+</div>
+    {% endblock %}
