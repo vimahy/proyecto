@@ -5,6 +5,8 @@ from django.template.base import kwarg_re
 from django.template.defaulttags import URLNode
 from django.utils.html import conditional_escape
 from django.utils.http import urlencode
+from django.contrib.auth.models import Group
+
 
 from account.utils import user_display
 
@@ -111,3 +113,9 @@ def urlnext(parser, token):
                 args.append(parser.compile_filter(value))
 
     return URLNextNode(viewname, args, kwargs, asvar)
+
+
+@register.filter(name='has_group')
+def has_group(user, group_name):
+    group = Group.objects.get(name=group_name)
+    return True if group in user.groups.all() else False

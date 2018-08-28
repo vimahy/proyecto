@@ -15,7 +15,8 @@ from account.models import Account, DomicilioProfesional,Cuota, Domicilio,Public
 from django.http import HttpResponseRedirect
 from reportlab.pdfgen import canvas
 from .forms import SocioForm,UserForm,DomicilioFormSet,CuotaForm,PublicacionDevueltaForm,DomicilioProfesionalForm,DomicilioFormSet
-import sys  
+import sys
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -55,13 +56,17 @@ def detalle_cuota(request, pk):
 
 @user_passes_test(lambda u: u.is_staff)
 def cargar_publicacion(request):
-    if request.method =="POST":
-        publicacionDevueltaForm = PublicacionDevueltaForm(request.POST)
-        if publicacionDevueltaForm.is_valid():
-           publicacionDevuelta = publicacionDevueltaForm.save()
-           return redirect(detalle_publicacion, pk=publicacionDevuelta.pk)
+    usuario = request.user
+    if usuario.groups.filter(name='secretaria').exists():
+        if request.method =="POST":
+            publicacionDevueltaForm = PublicacionDevueltaForm(request.POST)
+            if publicacionDevueltaForm.is_valid():
+               publicacionDevuelta = publicacionDevueltaForm.save()
+               return redirect(detalle_publicacion, pk=publicacionDevuelta.pk)
+        else:
+            publicacionDevueltaForm  = PublicacionDevueltaForm ()
     else:
-        publicacionDevueltaForm  = PublicacionDevueltaForm ()
+        return HttpResponse("Permission to add denied")
     return render(request, 'sociedad/cargar_publicacionesDevueltas.html', {'publicacionDevueltaForm':publicacionDevueltaForm,})
 
 
@@ -71,13 +76,17 @@ def cargar_domicilio(request):
     """
     Agrega una dirección profesional a la base de datos
     """
-    if request.method =="POST":
-        domicilioProfesional= DomicilioProfesionalForm(request.POST)
-        if domicilioProfesional.is_valid():
-           domicilioP = domicilioProfesional.save()
-           return redirect(detalle_domicilio, pk=domicilioP.pk)
+    usuario = request.user
+    if usuario.groups.filter(name='secretaria').exists():
+        if request.method =="POST":
+            domicilioProfesional= DomicilioProfesionalForm(request.POST)
+            if domicilioProfesional.is_valid():
+               domicilioP = domicilioProfesional.save()
+               return redirect(detalle_domicilio, pk=domicilioP.pk)
+        else:
+            domicilioProfesional  = DomicilioProfesionalForm ()
     else:
-        domicilioProfesional  = DomicilioProfesionalForm ()
+        return HttpResponse("Permission to add denied")
     return render(request, 'sociedad/cargar_domicilioP.html', {'domicilioProfesional':domicilioProfesional,})
 
 
@@ -97,14 +106,18 @@ def detalle_domicilio(request, pk):
 
 @user_passes_test(lambda u: u.is_staff)
 def editar_domicilio(request, pk):
+    usuario = request.user
     domicilioProfesional = get_object_or_404(DomicilioProfesional, pk=pk)
-    if request.method == "POST":
-        form = DomicilioProfesionalForm(request.POST, instance = domicilioProfesional)
-        if form.is_valid():
-            form.save()
-            return redirect(detalle_domicilio,pk=domicilioProfesional.pk)
+    if usuario.groups.filter(name='secretaria').exists():
+        if request.method == "POST":
+            form = DomicilioProfesionalForm(request.POST, instance = domicilioProfesional)
+            if form.is_valid():
+                form.save()
+                return redirect(detalle_domicilio,pk=domicilioProfesional.pk)
+        else:
+            form = DomicilioProfesionalForm(instance = domicilioProfesional)
     else:
-        form = DomicilioProfesionalForm(instance = domicilioProfesional)
+        return HttpResponse("Permission to add denied")
     return render(request, 'sociedad/editar_domicilioP.html',{'form':form})
 
 
@@ -120,16 +133,22 @@ def detalle_publicacion(request, pk):
     publicacion = get_object_or_404(PublicacionDevuelta, pk=pk)
     return render(request, 'sociedad/detalle_publicacionesDevueltas.html', {'publicacion': publicacion})
 
+
+
 @user_passes_test(lambda u: u.is_staff)
 def editar_publicacion(request, pk):
+    usuario = request.user
     publicacionDevuelta = get_object_or_404(PublicacionDevuelta, pk=pk)
-    if request.method == "POST":
-        form = PublicacionDevueltaForm(request.POST, instance = publicacionDevuelta)
-        if form.is_valid():
-            form.save()
-            return redirect(detalle_publicacion,pk=publicacionDevuelta.pk)
+    if usuario.groups.filter(name='secretaria').exists():
+        if request.method == "POST":
+            form = PublicacionDevueltaForm(request.POST, instance = publicacionDevuelta)
+            if form.is_valid():
+                form.save()
+                return redirect(detalle_publicacion,pk=publicacionDevuelta.pk)
+        else:
+            form = PublicacionDevueltaForm(instance = publicacionDevuelta)
     else:
-        form = PublicacionDevueltaForm(instance = publicacionDevuelta)
+        return HttpResponse("Permission to add denied")
     return render(request, 'sociedad/editar_publicacion.html',{'form':form})
 
 
@@ -139,13 +158,18 @@ def cargar_cuota(request):
     """
     Agrega un pago de un socio. 
     """
-    if request.method =="POST":
-        cuotaForm = CuotaForm(request.POST)
-        if cuotaForm.is_valid():
-           cuota = cuotaForm.save()
-           return redirect(detalle_cuota, pk=cuota.pk)
+    usuario = request.user
+    if usuario.groups.filter(name='secretaria').exists():
+    #if usuario.has_perm('sociedad.add_cuota'):
+        if request.method =="POST":
+            cuotaForm = CuotaForm(request.POST)
+            if cuotaForm.is_valid():
+               cuota = cuotaForm.save()
+               return redirect(detalle_cuota, pk=cuota.pk)
+        else:
+            cuotaForm = CuotaForm()
     else:
-        cuotaForm = CuotaForm()
+        return HttpResponse("Permission to add denied")
     return render(request, 'sociedad/cargar_cuota.html', {'cuotaForm':cuotaForm,})
 
 
@@ -153,13 +177,17 @@ def cargar_cuota(request):
 @user_passes_test(lambda u: u.is_staff)
 def editar_cuota(request, pk):
     cuota = get_object_or_404(Cuota, pk=pk)
-    if request.method == "POST":
-        form = CuotaForm(request.POST, instance = cuota)
-        if form.is_valid():
-            form.save()
-            return redirect(detalle_cuota,pk=cuota.pk)
+    usuario = request.user
+    if usuario.groups.filter(name='secretaria').exists():
+        if request.method == "POST":
+            form = CuotaForm(request.POST, instance = cuota)
+            if form.is_valid():
+                form.save()
+                return redirect(detalle_cuota,pk=cuota.pk)
+        else:
+            form = CuotaForm(instance = cuota)
     else:
-        form = CuotaForm(instance = cuota)
+        return HttpResponse("Permission to add denied")
     return render(request,'sociedad/editar_cuota.html',{'form':form})
 
 
@@ -200,25 +228,29 @@ def signup(request):
 
 @user_passes_test(lambda u: u.is_staff)
 def cargar_socio(request):
-    DomicilioFormSet = inlineformset_factory(Account,Domicilio,fields=('codigo_postal',
-                        'calle_numero_apartado_postal',
-                        'colonia',
-                        'municipio_delegacion',
-                        'ciudad',
-                        'estado',
-                        'telefono')
-                        ,can_delete=False)
-    socio=Account()
-    if request.method == "POST":
-        form = SocioForm(request.POST, instance=socio)
-        domicilioFormset = DomicilioFormSet(request.POST, instance=socio)
-        if form.is_valid() and domicilioFormset.is_valid():
-            form.save()
-            domicilioFormset.save()
-            return redirect(detalle_socio, pk=socio.pk)
+    usuario = request.user
+    if usuario.groups.filter(name='secretaria').exists():
+        DomicilioFormSet = inlineformset_factory(Account,Domicilio,fields=('codigo_postal',
+                            'calle_numero_apartado_postal',
+                            'colonia',
+                            'municipio_delegacion',
+                            'ciudad',
+                            'estado',
+                            'telefono')
+                            ,can_delete=False)
+        socio=Account()
+        if request.method == "POST":
+            form = SocioForm(request.POST, instance=socio)
+            domicilioFormset = DomicilioFormSet(request.POST, instance=socio)
+            if form.is_valid() and domicilioFormset.is_valid():
+                form.save()
+                domicilioFormset.save()
+                return redirect(detalle_socio, pk=socio.pk)
+        else:
+            form = SocioForm(instance=socio)
+            domicilioFormset = DomicilioFormSet(instance=socio)
     else:
-        form = SocioForm(instance=socio)
-        domicilioFormset = DomicilioFormSet(instance=socio)
+        return HttpResponse("Permission to add denied")
     return render(request, 'sociedad/cargar_socio.html', {'form':form,'domicilioFormset':domicilioFormset})
 
 #Este pedazo de codigo es para crear el formulario de crear un socio nuevo
@@ -231,32 +263,53 @@ def cargar_socio(request):
 
 
 
+@user_passes_test(lambda u: u.is_staff)
+def cargar_cuota(request):
+    """
+    Agrega un pago de un socio. 
+    """
+    usuario = request.user
+    if usuario.groups.filter(name='secretaria').exists():
+    #if usuario.has_perm('sociedad.add_cuota'):
+        if request.method =="POST":
+            cuotaForm = CuotaForm(request.POST)
+            if cuotaForm.is_valid():
+               cuota = cuotaForm.save()
+               return redirect(detalle_cuota, pk=cuota.pk)
+        else:
+            cuotaForm = CuotaForm()
+    else:
+        return HttpResponse("Permission to add denied")
+    return render(request, 'sociedad/cargar_cuota.html', {'cuotaForm':cuotaForm,})
+
 
 @login_required() # only logged in users should access this
 def editar_socio(request, pk):
     # querying the User object with pk from url
     user = User.objects.get(pk=pk)
+    usuario = request.user
     # prepopulate UserProfileForm with retrieved user values from above.
     user_form = UserForm(instance=user)
     # The sorcery begins from here, see explanation below
     ProfileInlineFormset = inlineformset_factory(User,Account , fields=( 'apellido_materno','sexo',
         'grado_academico','institucion','publicacion','calidad','telefono','division'),can_delete=False)
     formset = ProfileInlineFormset(instance=user)
-    if request.user.is_authenticated(): #and request.user.id == user.id:
-        if request.method == "POST":
-            form = UserForm(request.POST, request.FILES, instance=user)
-            formset = ProfileInlineFormset(request.POST, request.FILES, instance=user)
-            if form.is_valid():
-                created_user = form.save(commit=False)
-                formset = ProfileInlineFormset(request.POST, request.FILES, instance=created_user)
-                if formset.is_valid():
-                    created_user.save()
-                    formset.save()
-                    #return redirect(detalle_cuota,pk=cuota.pk)
-                    return redirect(detalle_socio,pk)
-        return render(request, 'sociedad/editar_socio.html', {'formset': formset,'user_form':user_form})
+    if usuario.groups.filter(name='secretaria').exists():
+        if request.user.is_authenticated(): #and request.user.id == user.id:
+            if request.method == "POST":
+                form = UserForm(request.POST, request.FILES, instance=user)
+                formset = ProfileInlineFormset(request.POST, request.FILES, instance=user)
+                if form.is_valid():
+                    created_user = form.save(commit=False)
+                    formset = ProfileInlineFormset(request.POST, request.FILES, instance=created_user)
+                    if formset.is_valid():
+                        created_user.save()
+                        formset.save()
+                        #return redirect(detalle_cuota,pk=cuota.pk)
+                        return redirect(detalle_socio,pk)
     else:
-        raise PermissionDenied
+        return HttpResponse("Permission to add denied")
+    return render(request, 'sociedad/editar_socio.html', {'formset': formset,'user_form':user_form})
 
 
 
@@ -381,7 +434,6 @@ def tarjetas(request):
                 {'paternos': paternos, 'query': ap})
 
 
-    #
     # Hace una búsqueda de socios por apellido materno
     elif 'am' in request.GET:
         am = request.GET['am']
