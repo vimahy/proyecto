@@ -6,12 +6,12 @@
     {% if request.user.is_authenticated %} 
 	   <li class="dropdown">
 <a    aria-expanded="false">{{ user.username}}</span></a>
-   {% if request.user|has_group:"secretaria" %} 
 
-  {% if user.is_staff %}
+
+  {% if user.is_staff or request.user|has_group:"secretaria" %}
     <li class="dropdown">
-<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ user.username}} <span class="caret"></span></a>
-         {% endif %}
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Acciones <span class="caret"></span></a>
+
 	          <ul class="dropdown-menu" role="menu">
 	            <li><a href="/">Inicio</a></li>
 	            <li class="divider"></li>
@@ -32,22 +32,24 @@
 	            <li><a href="{% url 'account_logout' %}">Salir</a></li>
 	          </ul>
 	        </li>
+        {% else %}
         <li>
             <a href="{% url 'account_settings' %}"><i class="fa fa-cog"></i> {% trans "Ajustes" %}</a>
         </li>
         <li>
+         {% endif %}
 {% else %}
 
             <a id="account_logout" href="{% url 'account_logout' %}"><i class="fa fa-power-off"></i> {% trans "Log out" %}</a>
         </li>
 {% endif %}
 
-    {% else %}
+
         <li><a href="{% url 'account_login' %}">{% trans "Log in" %}</a></li>
         {% if ACCOUNT_OPEN_SIGNUP %}
             <li><a href="{% url 'account_signup' %}">{% trans "Sign up" %}</a></li>
         {% endif %}
-    {% endif %}
+
 </ul>
 
 <form id="accountLogOutForm" style="display: none;" action="{% url 'account_logout' %}" method="POST">
