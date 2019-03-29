@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from django.contrib.auth.forms import UserCreationForm
+from rest_framework.authtoken import views as rest_framework_views
 
 from . import views
 
@@ -20,4 +21,7 @@ urlpatterns = [
     url(r'^editar/(?P<pk>[\w\s\D]+)/domicilio$', views.editar_domicilio, name='editar_domicilio'),
     url(r'^socio/(?P<pk>[0-9]+)/cuotas/$', views.lista_cuotas),
     url(r"^prueba/$", views.signup, name="prueba"),
+    #url(r'^api-token-auth/$', rest_framework_views.obtain_auth_token),
+    #url(r'^socios/$', views.socios_lista),
+    url(r'^socios/$', views.ListaSocios.as_view(), name='SociosLista'),
 ]

@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
 from django.conf.urls import url
+from .api import AccountList, AccountDetail
+
 from . import views
 from account.views import SignupView, LoginView, LogoutView, DeleteView,ActualizarDomicilioView, ActualizarDomicilioProView
 from account.views import ConfirmEmailView

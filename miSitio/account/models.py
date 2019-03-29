@@ -757,7 +757,7 @@ class Cuota(models.Model):
                                         blank=True,
                                         null=True,)
     class Meta:
-        ordering =('fecha_fin',)
+        ordering =('fecha_fin','fecha_pago')
 
     def __unicode__(self):
         return str(self.fecha_fin)

@@ -24,6 +24,51 @@ from django.db.models.signals import post_save
 
 
 
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
+from account.serializers import UserSerializer
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
+from rest_framework.views import APIView
+
+
+
+
+
+
+class JSONResponse(HttpResponse):
+    """
+    An HttpResponse that renders its content into JSON.
+    """
+    def __init__(self, data, **kwargs):
+        content = JSONRenderer().render(data)
+        kwargs['content_type'] = 'application/json'
+        super(JSONResponse, self).__init__(content, **kwargs)
+
+
+class ListaSocios(APIView):
+    permission_classes = (IsAuthenticated,)             # <-- And here
+    
+    def get(self,request):
+        """
+        Lista los datos del socio
+        """
+        if request.method == 'GET':
+            socios = User.objects.all()
+            serializer = UserSerializer(socios, many=True)
+            return JSONResponse(serializer.data)
+
+        elif request.method == 'POST':
+            data = JSONParser().parse(request)
+            serializer = UserSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return JSONResponse(serializer.data, status=201)
+            return JSONResponse(serializer.errors, status=400)
+
 
 
 
