@@ -53,11 +53,17 @@ class ListaSocios(APIView):
     permission_classes = (IsAuthenticated,)             # <-- And here
     
     def get(self,request):
+        hoy = datetime.date.today()
+        agno = hoy.year
         """
         Lista los datos del socio
         """
         if request.method == 'GET':
-            socios = User.objects.all()
+            #En este caso se toman en cuenta a los socios vitalicios
+            #cuota= Account.objects.filter(cuota__fecha_pago__gte= str(agno)+'-1-1',cuota__fecha_fin__lte= hoy,cuota__fecha_fin__lte= hoy).distinct()
+            cuota= Account.objects.filter(cuota__fecha_pago__gte= str(agno)+'-1-1').distinct()
+            socios = User.objects.filter(id__in=cuota).distinct()
+            #socios = User.objects.all()
             serializer = UserSerializer(socios, many=True)
             return JSONResponse(serializer.data)
 

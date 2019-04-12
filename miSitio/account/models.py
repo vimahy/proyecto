@@ -800,3 +800,12 @@ class PublicacionDevuelta(models.Model):
                                         null=True,)
     def __unicode__(self):
         return self.estatus or u''
+
+
+class tarjetonSocio(models.Model):
+    numero_socio = models.AutoField(primary_key=True)
+    #user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    account = models.ForeignKey(Account, on_delete=models.DO_NOTHING)
+class Meta:
+        managed = False
+        db_table = 'account_account'
