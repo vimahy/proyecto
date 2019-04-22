@@ -60,8 +60,7 @@ class ListaSocios(APIView):
         """
         if request.method == 'GET':
             #En este caso se toman en cuenta a los socios vitalicios
-            #cuota= Account.objects.filter(cuota__fecha_pago__gte= str(agno)+'-1-1',cuota__fecha_fin__lte= hoy,cuota__fecha_fin__lte= hoy).distinct()
-            cuota= Account.objects.filter(cuota__fecha_pago__gte= str(agno)+'-1-1').distinct()
+            cuota= Account.objects.filter(cuota__fecha_fin__gte= str(agno)+'-12-31').distinct()
             socios = User.objects.filter(id__in=cuota).distinct()
             #socios = User.objects.all()
             serializer = UserSerializer(socios, many=True)
