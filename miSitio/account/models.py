@@ -9,7 +9,7 @@ try:
 except ImportError:  # python 2
     from urllib import urlencode
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models, transaction
 from django.db.models import Q
 from django.db.models.signals import post_save
@@ -307,12 +307,12 @@ class Account(models.Model):
                                         ('PROFESIONISTA', 'Profesionista')),
                                         null = True,
                                         blank=True,)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="account", verbose_name=_("user"))
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="account", verbose_name=_("user"),on_delete=models.CASCADE)
 
     @classmethod
     def for_request(cls, request):
         user = getattr(request, "user", None)
-        if user and user.is_authenticated():
+        if user and user.is_authenticated:
             try:
                 return Account._default_manager.get(user=user)
             except Account.DoesNotExist:
@@ -398,7 +398,7 @@ class SignupCode(models.Model):
     code = models.CharField(_("code"), max_length=64, unique=True)
     max_uses = models.PositiveIntegerField(_("max uses"), default=0)
     expiry = models.DateTimeField(_("expiry"), null=True, blank=True)
-    inviter = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
+    inviter = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True,on_delete=models.CASCADE)
     email = models.EmailField(max_length=254, blank=True)
     notes = models.TextField(_("notes"), blank=True)
     sent = models.DateTimeField(_("sent"), null=True, blank=True)
@@ -500,8 +500,8 @@ class SignupCode(models.Model):
 
 class SignupCodeResult(models.Model):
 
-    signup_code = models.ForeignKey(SignupCode)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    signup_code = models.ForeignKey(SignupCode,on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     timestamp = models.DateTimeField(default=timezone.now)
 
     def save(self, **kwargs):
@@ -512,7 +512,7 @@ class SignupCodeResult(models.Model):
 @python_2_unicode_compatible
 class EmailAddress(models.Model):
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     email = models.EmailField(max_length=254, unique=settings.ACCOUNT_EMAIL_UNIQUE)
     verified = models.BooleanField(_("verified"), default=False)
     primary = models.BooleanField(_("primary"), default=False)
@@ -563,7 +563,7 @@ class EmailAddress(models.Model):
 @python_2_unicode_compatible
 class EmailConfirmation(models.Model):
 
-    email_address = models.ForeignKey(EmailAddress)
+    email_address = models.ForeignKey(EmailAddress,on_delete=models.CASCADE)
     created = models.DateTimeField(default=timezone.now)
     sent = models.DateTimeField(null=True)
     key = models.CharField(max_length=64, unique=True)
@@ -658,7 +658,7 @@ class PasswordHistory(models.Model):
         verbose_name = _("password history")
         verbose_name_plural = _("password histories")
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="password_history")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="password_history",on_delete=models.CASCADE)
     password = models.CharField(max_length=255)  # encrypted password
     timestamp = models.DateTimeField(default=timezone.now)  # password creation time
 
@@ -667,7 +667,7 @@ class PasswordExpiry(models.Model):
     """
     Holds the password expiration period for a single user.
     """
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="password_expiry", verbose_name=_("user"))
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="password_expiry", verbose_name=_("user"),on_delete=models.CASCADE)
     expiry = models.PositiveIntegerField(default=0)
 
 
@@ -678,7 +678,7 @@ class Domicilio(models.Model):
                                         blank=True,
                                         null=True,)
     socio = models.OneToOneField(Account,
-                                        blank=True)
+                                        blank=True,on_delete=models.CASCADE)
     calle_numero_apartado_postal = models.CharField(max_length=192,
                                         blank=True,
                                         null=True,)
@@ -714,7 +714,7 @@ class DomicilioProfesional(models.Model):
                                         blank=True,
                                         null=True,)
     socio = models.OneToOneField(Account,
-                                        blank=True)
+                                        blank=True,on_delete=models.CASCADE)
     institucion = models.CharField(max_length=200,
                                         blank=True,
                                         null=True,)
@@ -743,12 +743,12 @@ class DomicilioProfesional(models.Model):
 
 class Delegado(models.Model):
     vigencia = models.DateField()
-    socio = models.ForeignKey(Account)
+    socio = models.ForeignKey(Account,on_delete=models.CASCADE)
     def __unicode__(self):
         return self.socio.nombre or u'' +" "+ self.socio.apellido_paterno or u'' +" "+ self.socio.apellido_materno or u''
 
 class Cuota(models.Model):
-    socio = models.ForeignKey(Account)
+    socio = models.ForeignKey(Account,on_delete=models.CASCADE)
     fecha_pago = models.DateField(null=True)
     fecha_fin = models.DateField(null=True)
     cantidad = models.FloatField(null=True,blank =True,
@@ -766,21 +766,21 @@ class Cuota(models.Model):
 
 class RepresentanteInstitucional(models.Model):
     vigencia = models.DateField()
-    socio = models.ForeignKey(Account)
+    socio = models.ForeignKey(Account,on_delete=models.CASCADE)
     def __unicode__(self):
         return self.socio.nombre or u'' +" "+ self.socio.apellido_paterno or u'' +" "+ self.socio.apellido_materno or u''
 
 
 class PresidenteDivision(models.Model):
     vigencia = models.DateField()
-    socio = models.ForeignKey(Account)
-    division = models.OneToOneField(Division)
+    socio = models.ForeignKey(Account,on_delete=models.CASCADE)
+    division = models.OneToOneField(Division,on_delete=models.CASCADE)
     def __unicode__(self):
         return self.socio.nombre +" "+ self.socio.apellido_paterno or u'' +" "+ self.socio.apellido_materno or u'' + " " +self.division.division 
 
 class PublicacionDevuelta(models.Model):
-    socio = models.ForeignKey(Account)
-    publicacion = models.ForeignKey(Publicacion)
+    socio = models.ForeignKey(Account,on_delete=models.CASCADE)
+    publicacion = models.ForeignKey(Publicacion,on_delete=models.CASCADE)
     fecha_envio = models.DateField()
     Enviado = 'Enviado'
     Devuelto = 'Devuelto'

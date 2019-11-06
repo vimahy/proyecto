@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 import datetime
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import redirect, get_object_or_404
 from django.utils.http import base36_to_int, int_to_base36
@@ -354,7 +354,7 @@ class LoginView(FormView):
     redirect_field_name = "next"
 
     def get(self, *args, **kwargs):
-        if self.request.user.is_authenticated():
+        if self.request.user.is_authenticated:
             return redirect(self.get_success_url())
         return super(LoginView, self).get(*args, **kwargs)
 

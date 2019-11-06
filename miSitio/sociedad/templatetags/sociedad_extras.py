@@ -2,7 +2,6 @@
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django import template
-from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from django.contrib.postgres.search import SearchVector
@@ -23,15 +22,8 @@ def xstr(s):
     return str(s)
 
 
-reload(sys)  
-sys.setdefaultencoding('utf8')
-
-register = template.Library()
 
 
-
-
-@register.assignment_tag
 #def creaTarjetas(socios,request):
 def creaTarjetas(socios):
      """Imprime la informacion de los socios.

@@ -22,12 +22,12 @@ from account.conf import settings
 from account.hooks import hookset
 from account.models import EmailAddress, Domicilio,Division, Account
 from account.utils import get_user_lookup_kwargs
-from models import DomicilioProfesional
+from .models import DomicilioProfesional
 
 from django.forms import widgets
 
-reload(sys)  
-sys.setdefaultencoding('utf8')
+
+
 
 alnum_re = re.compile(r"^\w+$")
 
@@ -321,10 +321,8 @@ class SettingsForm(forms.Form):
     apellido_materno = forms.CharField(label=_("Apellido 2"),
         widget=forms.TextInput(attrs={'placeholder': 'Apellido 1'}),
         required=False)
-    fecha_nacimiento = forms.DateField(widget=forms.extras.widgets.SelectDateWidget(years=range(1900,2100)),
-        #input_formats=['%d-%m-%Y','%d/%m/%Y'],
-        #widget=forms.DateInput(attrs={'placeholder': 'DD-MM-YYYY'}),
-        required=False)
+    #fecha_nacimiento = forms.DateField(widget=forms.extras.widgets.SelectDateWidget(years=range(1900,2100)),
+        #required=False)
     #CORREO ELECTRONICO ES OBLIGATORIO
     email = forms.EmailField(label=_("Email"),
         required=True,
@@ -372,7 +370,6 @@ class SettingsForm(forms.Form):
         value = self.cleaned_data['division']
         if len(value) > 3:
             raise forms.ValidationError("No puedes elegir más de 3 divisiones.")
-            print 'hola'
         return value
 
     def clean_email(self):

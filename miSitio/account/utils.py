@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
-
+from django.urls import reverse
+from django.urls import reverse_lazy
 import datetime
 import functools
 import pytz
@@ -8,7 +9,7 @@ try:
 except ImportError:  # python 2
     from urlparse import urlparse, urlunparse
 
-from django.core import urlresolvers
+
 from django.core.exceptions import SuspiciousOperation
 from django.http import HttpResponseRedirect, QueryDict
 
@@ -45,7 +46,7 @@ def default_redirect(request, fallback_url, **kwargs):
         return next_url
     else:
         try:
-            fallback_url = urlresolvers.reverse(fallback_url)
+            fallback_url = reverse(fallback_url)
         except urlresolvers.NoReverseMatch:
             if callable(fallback_url):
                 raise

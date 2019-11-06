@@ -1,6 +1,5 @@
 # encoding=utf8
 import datetime
-from django.forms.extras.widgets import SelectDateWidget
 from django.forms import MultiWidget
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django import forms

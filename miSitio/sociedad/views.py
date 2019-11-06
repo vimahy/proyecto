@@ -2,7 +2,7 @@
 import datetime
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from django.contrib.postgres.search import SearchVector
@@ -83,8 +83,6 @@ def xstr(s):
     return str(s)
 
 
-reload(sys)  
-sys.setdefaultencoding('utf8')
 
 
 @user_passes_test(lambda u: u.is_staff)

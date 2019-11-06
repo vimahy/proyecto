@@ -3,7 +3,7 @@ pinax-webanalytics==3.0.0
 pinax-eventlog==1.1.2
 
 
-Django==1.11
+Django==2.0
 pinax-theme-bootstrap==8.0.1
 django-autocomplete-light
 django-bootstrap3-datetimepicker
@@ -14,3 +14,6 @@ gunicorn
 reportlab
 django-forms-bootstrap
 django-countries
+djangorestframework
+markdown       # Markdown support for the browsable API.
+django-filter 
