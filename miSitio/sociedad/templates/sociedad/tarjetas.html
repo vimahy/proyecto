@@ -130,7 +130,7 @@
       <td><a href="socio/{{ numero.pk }}"</a> {{ numero.numero_socio|escape }} </td>
       <td><a href="socio/{{ numero.pk }}"</a> {{ numero.domicilio|escape }} </td>
  <td><a href="domicilio/{{ numero.domicilioprofesional.pk }}"</a> {{ numero.domicilioprofesional.institucion|escape }}</td>
-   <td><a href="socio/{{ numero.pk }}/cuotas"</a>  {{ numero.cuota_set.last }} </td>
+   <td><a href="socio/{{ numero.pk }}/cuotas"</a>  {{ numero.cuota_set.last.fecha_fin }} </td>
     </tr>
 
   </tbody>

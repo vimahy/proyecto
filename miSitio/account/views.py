@@ -167,14 +167,14 @@ class SignupView(PasswordMixin, FormView):
             self.signup_code_present = False
 
     def get(self, *args, **kwargs):
-        if self.request.user.is_authenticated():
+        if self.request.user.is_authenticated:
             return redirect(default_redirect(self.request, settings.ACCOUNT_LOGIN_REDIRECT_URL))
         if not self.is_open():
             return self.closed()
         return super(SignupView, self).get(*args, **kwargs)
 
     def post(self, *args, **kwargs):
-        if self.request.user.is_authenticated():
+        if self.request.user.is_authenticated:
             raise Http404()
         if not self.is_open():
             return self.closed()
@@ -415,13 +415,13 @@ class LogoutView(TemplateResponseMixin, View):
     redirect_field_name = "next"
 
     def get(self, *args, **kwargs):
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             return redirect(self.get_redirect_url())
         ctx = self.get_context_data()
         return self.render_to_response(ctx)
 
     def post(self, *args, **kwargs):
-        if self.request.user.is_authenticated():
+        if self.request.user.is_authenticated == self.request.user.is_authenticated:
             auth.logout(self.request)
         return redirect(self.get_redirect_url())
 
@@ -506,7 +506,7 @@ class ConfirmEmailView(TemplateResponseMixin, View):
         return ctx
 
     def get_redirect_url(self):
-        if self.user.is_authenticated():
+        if self.user.is_authenticated:
             if not settings.ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL:
                 return settings.ACCOUNT_LOGIN_REDIRECT_URL
             return settings.ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL
@@ -539,12 +539,12 @@ class ChangePasswordView(PasswordMixin, FormView):
     fallback_url_setting = "ACCOUNT_PASSWORD_CHANGE_REDIRECT_URL"
 
     def get(self, *args, **kwargs):
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             return redirect("account_password_reset")
         return super(ChangePasswordView, self).get(*args, **kwargs)
 
     def post(self, *args, **kwargs):
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             return HttpResponseForbidden()
         return super(ChangePasswordView, self).post(*args, **kwargs)
 
@@ -703,6 +703,7 @@ class ActualizarDomicilioProView(LoginRequiredMixin, FormView):
             initial["colonia"] = self.request.user.account.domicilioprofesional.colonia
             initial["municipio_ciudad"] = self.request.user.account.domicilioprofesional.municipio_ciudad
             initial["estado"] = self.request.user.account.domicilioprofesional.estado
+            initial["pais"] = self.request.user.account.domicilioprofesional.pais
             initial["telefono"] = self.request.user.account.domicilioprofesional.telefono
         except (ObjectDoesNotExist):
             obj = DomicilioProfesional(codigo_institucion="",
@@ -713,6 +714,7 @@ class ActualizarDomicilioProView(LoginRequiredMixin, FormView):
             colonia="",
             municipio_ciudad="",
             estado="",
+            pais="",
             telefono="",
             socio_id = self.request.user.id)
             obj.save()
@@ -737,6 +739,8 @@ class ActualizarDomicilioProView(LoginRequiredMixin, FormView):
             fields["municipio_ciudad"] = form.cleaned_data["municipio_ciudad"].upper()
         if "estado" in form.cleaned_data:
             fields["estado"] = form.cleaned_data["estado"].upper()
+        if "pais" in form.cleaned_data:
+            fields["pais"] = form.cleaned_data["pais"].upper()
         if "telefono" in form.cleaned_data:
             fields["telefono"] = form.cleaned_data["telefono"].upper()
 
@@ -794,6 +798,7 @@ class ActualizarDomicilioView(LoginRequiredMixin, FormView):
             initial["municipio_delegacion"] = self.request.user.account.domicilio.municipio_delegacion
             initial["ciudad"] = self.request.user.account.domicilio.ciudad
             initial["estado"] = self.request.user.account.domicilio.estado
+            initial["pais"] = self.request.user.account.domicilio.pais
             initial["telefono"] = self.request.user.account.domicilio.telefono
         except ObjectDoesNotExist:
             obj = Domicilio(codigo_postal=0,
@@ -803,6 +808,7 @@ class ActualizarDomicilioView(LoginRequiredMixin, FormView):
             municipio_delegacion="",
             estado="",
             ciudad="",
+            pais="",
             telefono="")
             obj.save()
         return initial
@@ -831,6 +837,8 @@ class ActualizarDomicilioView(LoginRequiredMixin, FormView):
             fields["ciudad"] = form.cleaned_data["ciudad"].upper()
         if "estado" in form.cleaned_data:
             fields["estado"] = form.cleaned_data["estado"].upper()
+        if "pais" in form.cleaned_data:
+            fields["pais"] = form.cleaned_data["pais"].upper()
         if "telefono" in form.cleaned_data:
             fields["telefono"] = form.cleaned_data["telefono"].upper()
         if "domicilio_profesional" in form.cleaned_data:

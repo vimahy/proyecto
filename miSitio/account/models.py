@@ -399,7 +399,7 @@ class SignupCode(models.Model):
     max_uses = models.PositiveIntegerField(_("max uses"), default=0)
     expiry = models.DateTimeField(_("expiry"), null=True, blank=True)
     inviter = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True,on_delete=models.CASCADE)
-    email = models.EmailField(max_length=254, blank=True)
+    email = models.EmailField(max_length=254, blank=True,unique =True)
     notes = models.TextField(_("notes"), blank=True)
     sent = models.DateTimeField(_("sent"), null=True, blank=True)
     created = models.DateTimeField(_("created"), default=timezone.now, editable=False)
@@ -513,7 +513,7 @@ class SignupCodeResult(models.Model):
 class EmailAddress(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
-    email = models.EmailField(max_length=254, unique=settings.ACCOUNT_EMAIL_UNIQUE)
+    email = models.EmailField(max_length=254, unique=True)
     verified = models.BooleanField(_("verified"), default=False)
     primary = models.BooleanField(_("primary"), default=False)
 
@@ -697,6 +697,9 @@ class Domicilio(models.Model):
     telefono =models.CharField(max_length=65,
                                         blank=True,
                                         null=True,)
+    pais = models.CharField(max_length=30,
+                                        default='MÉXICO',
+                                        null=False,)
     def __unicode__(self):
         return self.calle_numero_apartado_postal or u''
 
@@ -736,6 +739,9 @@ class DomicilioProfesional(models.Model):
     telefono =models.CharField(max_length=200,
                                         blank=True,
                                         null=True,)
+    pais = models.CharField(max_length=30,
+                                        default='MÉXICO',
+                                        null=False,)
     def __str__(self):
         return self.codigo_institucion or u''
 
@@ -760,7 +766,7 @@ class Cuota(models.Model):
         ordering =('fecha_fin','fecha_pago')
 
     def __unicode__(self):
-        return str(self.fecha_fin)
+        return self.fecha_fin
 
 
 

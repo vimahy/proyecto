@@ -204,6 +204,11 @@ class DomicilioProfesionalForm(forms.ModelForm):
     estado = forms.ChoiceField(
         choices = OPCIONES_ESTADOS,
         required=True,)
+    pais = forms.Field(
+        label='Estado, municipio y ciudad',
+        widget=forms.TextInput(attrs={'placeholder': 'Municipio y ciudad'}),
+        required=False,
+        help_text = '')
     telefono = forms.CharField(
         help_text = '',
         required=False,

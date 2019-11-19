@@ -3,7 +3,8 @@
 
 
 <ul class="nav navbar-nav pull-right">
-    {% if request.user.is_authenticated %} 
+    {% if request.user.is_authenticated %}
+
 	   <li class="dropdown">
 <a    aria-expanded="false">{{ user.username}}</span></a>
 
@@ -36,16 +37,16 @@
         <li>
             <a href="{% url 'account_settings' %}"><i class="fa fa-cog"></i> {% trans "Ajustes" %}</a>
         </li>
+        <li><a href="{% url 'account_logout' %}">{% trans "Log out" %}</a></li>
         <li>
          {% endif %}
 {% else %}
 
-            <a id="account_logout" href="{% url 'account_logout' %}"><i class="fa fa-power-off"></i> {% trans "Log out" %}</a>
-        </li>
+
 {% endif %}
 
 
-        <li><a href="{% url 'account_login' %}">{% trans "Log in" %}</a></li>
+
         {% if ACCOUNT_OPEN_SIGNUP %}
             <li><a href="{% url 'account_signup' %}">{% trans "Sign up" %}</a></li>
         {% endif %}

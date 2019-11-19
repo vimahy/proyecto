@@ -343,7 +343,7 @@ def editar_socio(request, pk):
         'grado_academico','institucion','publicacion','calidad','telefono','division'),can_delete=False)
     formset = ProfileInlineFormset(instance=user)
     if usuario.groups.filter(name='secretaria').exists():
-        if request.user.is_authenticated(): #and request.user.id == user.id:
+        if request.user.is_authenticated: #and request.user.id == user.id:
             if request.method == "POST":
                 form = UserForm(request.POST, request.FILES, instance=user)
                 formset = ProfileInlineFormset(request.POST, request.FILES, instance=user)

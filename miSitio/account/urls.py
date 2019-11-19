@@ -4,7 +4,7 @@ from django.conf.urls import url
 from .api import AccountList, AccountDetail
 
 from . import views
-from account.views import SignupView, LoginView, LogoutView, DeleteView,ActualizarDomicilioView, ActualizarDomicilioProView
+from account.views import SignupView, LoginView, LogoutView, DeleteView, ActualizarDomicilioView, ActualizarDomicilioProView
 from account.views import ConfirmEmailView
 from account.views import ChangePasswordView, PasswordResetView, PasswordResetTokenView
 from account.views import SettingsView
