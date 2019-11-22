@@ -161,9 +161,9 @@ asdasd
       <td><a href="socio/{{ socio.pk }}"</a> {{ socio.account.apellido_materno|escape }} </td>
       <td><a href="socio/{{ socio.pk }}"</a> {{ socio.first_name|escape }} </td>
       <td><a href="socio/{{ socio.pk }}"</a> {{ socio.account.numero_socio|escape }} </td>
-      <td><a href="socio/{{ socio.pk }}"</a> {{ socio.account.domicilio|escape }} </td>
+      <td><a href="socio/{{ socio.pk }}"</a> {{ socio.account.domicilio.calle_numero_apartado_postal|escape }} </td>
  <td><a href="domicilio/{{ socio.account.domicilioprofesional.pk }}"</a> {{ socio.account.domicilioprofesional.institucion|escape }}</td>
-   <td><a href="socio/{{ socio.pk }}/cuotas"</a>  {{ socio.account.cuota_set.last }} </td>
+   <td><a href="socio/{{ socio.pk }}/cuotas"</a>  {{ socio.account.cuota_set.last.fecha_fin  }} </td>
     </tr>
   {% endfor %}
   </tbody>
@@ -197,7 +197,7 @@ asdasd
       <td><a href="socio/{{ socios.pk }}"</a> {{ socios.numero_socio|escape }} </td>
       <td><a href="socio/{{ socios.pk }}"</a> {{ socios.domicilio|escape }} </td>
  <td><a href="domicilio/{{ socios.domicilioprofesional.pk }}"</a> {{ socios.domicilioprofesional.institucion|escape }}</td>
-   <td><a href="socio/{{ socios.pk }}/cuotas"</a>  {{ socios.cuota_set.last }} </td>
+   <td><a href="socio/{{ socios.pk }}/cuotas"</a>  {{ socios.cuota_set.last.fecha_fin }} </td>
     </tr>
   {% endfor %}
   </tbody>
@@ -231,9 +231,9 @@ asdasd
       <td><a href="socio/{{ socios.pk }}"</a> {{ socios.account.apellido_materno|escape }} </td>
       <td><a href="socio/{{ socios.pk }}"</a> {{ socios.first_name|escape }} </td>
       <td><a href="socio/{{ socios.pk }}"</a> {{ socios.account.numero_socio|escape }} </td>
-      <td><a href="socio/{{ socios.pk }}"</a> {{ socios.account.domicilio|escape }} </td>
+      <td><a href="socio/{{ socios.pk }}"</a> {{ socios.account.domicilio.calle_numero_apartado_postal|escape }} </td>
  <td><a href="domicilio/{{ socios.account.domicilioprofesional.pk }}"</a> {{ socios.account.domicilioprofesional.institucion|escape }}</td>
-   <td><a href="socio/{{ socios.pk }}/cuotas"</a>  {{ socios.account.cuota_set.last }} </td>
+   <td><a href="socio/{{ socios.pk }}/cuotas"</a>  {{ socios.account.cuota_set.last.fecha_fin  }} </td>
     </tr>
   {% endfor %}
   </tbody>
@@ -265,9 +265,9 @@ asdasd
       <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.apellido_materno|escape }} </td>
       <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.user.first_name|escape }} </td>
       <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.numero_socio|escape }} </td>
-      <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.domicilio|escape }} </td>
+      <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.domicilio.calle_numero_apartado_postal|escape }} </td>
  <td><a href="domicilio/{{ cuota.domicilioprofesional.pk }}"</a> {{ cuota.domicilioprofesional.institucion|escape }}</td>
-   <td><a href="socio/{{ cuota.pk }}/cuotas"</a>  {{ cuota.cuota_set.last }} </td>
+   <td><a href="socio/{{ cuota.pk }}/cuotas"</a>  {{ cuota.cuota_set.last.fecha_fin  }} </td>
     </tr>
   {% endfor %}
   </tbody>
@@ -298,9 +298,9 @@ asdasd
       <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.apellido_materno|escape }} </td>
       <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.user.first_name|escape }} </td>
       <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.numero_socio|escape }} </td>
-      <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.domicilio|escape }} </td>
+      <td><a href="socio/{{ cuota.pk }}"</a> {{ cuota.domicilio.calle_numero_apartado_postal|escape }} </td>
  <td><a href="domicilio/{{ cuota.domicilioprofesional.pk }}"</a> {{ cuota.domicilioprofesional.institucion|escape }}</td>
-   <td><a href="socio/{{ cuota.pk }}/cuotas"</a>  {{ cuota.cuota_set.last }} </td>
+   <td><a href="socio/{{ cuota.pk }}/cuotas"</a>  {{ cuota.cuota_set.last.fecha_fin  }} </td>
     </tr>
   {% endfor %}
 
