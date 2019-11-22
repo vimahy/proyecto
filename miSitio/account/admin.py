@@ -39,7 +39,6 @@ admin.site.register(Cuota)
 admin.site.register(Delegado)
 admin.site.register(RepresentanteInstitucional)
 admin.site.register(PresidenteDivision)
-admin.site.register(Biblioteca)
 
 
 class BibliotecaAdmin(admin.ModelAdmin):

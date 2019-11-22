@@ -143,12 +143,12 @@ hoy = datetime.date.today()
 
 class CuotaForm(forms.ModelForm):
     fecha_pago =forms.DateField(initial=hoy,
-    label='Fecha de vencimiento',
+    label='Fecha del pago',
         localize=True,
         input_formats=['%d-%m-%Y','%d/%m/%Y'],
         widget=forms.DateInput(attrs={'placeholder': 'DD-MM-YYYY'}),    
         required=True,
-    help_text = 'Ingrese la fecha de vencimiento.'
+    help_text = 'Ingrese la fecha fecha del pago.'
     )
     fecha_fin = forms.DateField(initial=hoy.replace(hoy.year + 1),
         label='Fecha de vencimiento',
