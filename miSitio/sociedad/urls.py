@@ -5,6 +5,7 @@ from rest_framework.authtoken import views as rest_framework_views
 from . import views
 
 urlpatterns = [
+    url(r"^sinPermisos/$", views.sinPermisos, name="sinPermisos"),
     url(r'^tarjetas$', views.tarjetas, name='tarjetas'),
     url(r'^cargar/socio$', views.cargar_socio, name='cargar_socio'),
     url(r'^socio/(?P<pk>[0-9]+)/$', views.detalle_socio),
@@ -20,7 +21,6 @@ urlpatterns = [
     url(r'^domicilio/(?P<pk>[\w\s\D]+)/$', views.detalle_domicilio),
     url(r'^editar/(?P<pk>[\w\s\D]+)/domicilio$', views.editar_domicilio, name='editar_domicilio'),
     url(r'^socio/(?P<pk>[0-9]+)/cuotas/$', views.lista_cuotas),
-    url(r"^prueba/$", views.signup, name="prueba"),
     #url(r'^api-token-auth/$', rest_framework_views.obtain_auth_token),
     #url(r'^socios/$', views.socios_lista),
     url(r'^socios/$', views.ListaSocios.as_view(), name='SociosLista'),

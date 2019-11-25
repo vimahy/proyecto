@@ -226,16 +226,12 @@ class Publicacion(models.Model):
     """
     Clase almacena las publiaciones que son enviadas.
     """
-    BOLETIN = 'Boletín'
-    CD_CATALOGO = 'Cd_catalogo'
-    REVISTA = 'Revista'
-    CALENDARIO = 'Calendario'
+    Si = 'Si'
+    No = 'No'
 
     OPCIONES_PUBLICACIONES = (
-            (REVISTA, 'Revista'),
-            (BOLETIN, 'Boletín'),
-            (CD_CATALOGO, 'Cd_catalogo'),
-            (CALENDARIO, 'Calendario')
+            (Si, 'Si'),
+            (No, 'No'),
             )
     publicacion = models.CharField(
         max_length = 11,
@@ -272,8 +268,12 @@ class Account(models.Model):
                                     blank=True,
                                     null=True,)
 
-    publicacion = models.ManyToManyField(Publicacion,
-                                        blank=True)
+    publicacion = models.CharField(max_length=10,
+                                        blank=True,
+                                        null=True,
+                                        choices=(
+                                        ('Si', 'Si'),
+                                        ('No', 'No'),))
     calidad = models.CharField(max_length=1,
                                         blank=True,
                                         null=True,

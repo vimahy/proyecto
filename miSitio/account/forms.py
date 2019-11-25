@@ -50,8 +50,9 @@ OPCIONES_GRADO = (
             ('Dr.', 'Doctorado'),
             )
 OPCIONES_PUBLICACIONES = (
-            ('1', 'Boletín'),
-            ('2', 'Cd_catalogo'),
+            ('', '----'),
+            ('Si', 'Si'),
+            ('No', 'No'),
             )
 
 OPCIONES_PRIORIDAD = (
@@ -359,10 +360,9 @@ class SettingsForm(forms.Form):
     tipo_domicilio = forms.ChoiceField(label=_("Deseo recibir la correspondencia en:"),
         choices = OPCIONES_DOMICILIO,
         required=False)
-    publicacion = forms.MultipleChoiceField(
-        label=_("Todas las publicaciones se te harán llegar en formato electrónico, sin embargo ¿Cuál de las siguientes quieres recibir en impreso?"),
-        required=False,
-        widget=forms.CheckboxSelectMultiple(),
+    publicacion = forms.ChoiceField(
+        label=_("Todas las publicaciones se encuentran  en formato electrónico, sin embargo ¿Desea recibir el boletín impreso?"),
+        required=True,
         help_text = '',
         choices = OPCIONES_PUBLICACIONES)
 
@@ -417,8 +417,7 @@ class SocioForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'placeholder': 'Institución'}),)
     publicacion = forms.MultipleChoiceField(
         required=False,
-        choices = OPCIONES_PUBLICACIONES,
-        help_text = 'Mantenga oprimida la tecla CTRL para seleccionar las publicaciones.')
+        choices = OPCIONES_PUBLICACIONES)
     calidad = forms.ChoiceField(
         choices = CALIDAD_OPCIONES,
         required=True,)

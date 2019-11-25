@@ -35,7 +35,9 @@ from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 
 
-
+def sinPermisos(request):
+    template_name = 'sociedad/sinPermisos.html'
+    return render(request, template_name)
 
 
 
@@ -114,7 +116,7 @@ def cargar_publicacion(request):
         else:
             publicacionDevueltaForm  = PublicacionDevueltaForm ()
     else:
-        return HttpResponse("Permission to add denied")
+          return redirect('sinPermisos')
     return render(request, 'sociedad/cargar_publicacionesDevueltas.html', {'publicacionDevueltaForm':publicacionDevueltaForm,})
 
 
@@ -134,7 +136,7 @@ def cargar_domicilio(request):
         else:
             domicilioProfesional  = DomicilioProfesionalForm ()
     else:
-        return HttpResponse("Permission to add denied")
+          return redirect('sinPermisos')
     return render(request, 'sociedad/cargar_domicilioP.html', {'domicilioProfesional':domicilioProfesional,})
 
 
@@ -165,7 +167,7 @@ def editar_domicilio(request, pk):
         else:
             form = DomicilioProfesionalForm(instance = domicilioProfesional)
     else:
-        return HttpResponse("Permission to add denied")
+          return redirect('sinPermisos')
     return render(request, 'sociedad/editar_domicilioP.html',{'form':form})
 
 
@@ -196,7 +198,7 @@ def editar_publicacion(request, pk):
         else:
             form = PublicacionDevueltaForm(instance = publicacionDevuelta)
     else:
-        return HttpResponse("Permission to add denied")
+          return redirect('sinPermisos')
     return render(request, 'sociedad/editar_publicacion.html',{'form':form})
 
 
@@ -217,7 +219,7 @@ def cargar_cuota(request):
         else:
             cuotaForm = CuotaForm()
     else:
-        return HttpResponse("Permission to add denied")
+          return redirect('sinPermisos')
     return render(request, 'sociedad/cargar_cuota.html', {'cuotaForm':cuotaForm,})
 
 
@@ -235,7 +237,7 @@ def editar_cuota(request, pk):
         else:
             form = CuotaForm(instance = cuota)
     else:
-        return HttpResponse("Permission to add denied")
+          return redirect('sinPermisos')
     return render(request,'sociedad/editar_cuota.html',{'form':form})
 
 
@@ -298,7 +300,7 @@ def cargar_socio(request):
             form = SocioForm(instance=socio)
             domicilioFormset = DomicilioFormSet(instance=socio)
     else:
-        return HttpResponse("Permission to add denied")
+          return redirect('sinPermisos')
     return render(request, 'sociedad/cargar_socio.html', {'form':form,'domicilioFormset':domicilioFormset})
 
 #Este pedazo de codigo es para crear el formulario de crear un socio nuevo
@@ -327,7 +329,7 @@ def cargar_cuota(request):
         else:
             cuotaForm = CuotaForm()
     else:
-        return HttpResponse("Permission to add denied")
+          return redirect('sinPermisos')
     return render(request, 'sociedad/cargar_cuota.html', {'cuotaForm':cuotaForm,})
 
 
@@ -356,7 +358,7 @@ def editar_socio(request, pk):
                         #return redirect(detalle_cuota,pk=cuota.pk)
                         return redirect(detalle_socio,pk)
     else:
-        return HttpResponse("Permission to add denied")
+          return redirect('sinPermisos')
     return render(request, 'sociedad/editar_socio.html', {'formset': formset,'user_form':user_form})
 
 
@@ -412,7 +414,7 @@ def tarjetas(request):
         else:
             institucion = Account.objects.filter(institucion__icontains=i).order_by('-apellido_materno')
             print(institucion)
-            return render(request, 'sociedad/tarjetas.html',
+            return render(request, 'sinPermisos',
                 {'institucion': institucion, 'query': i})
 
 
@@ -530,3 +532,5 @@ def tarjetas(request):
 
 
     return render(request, 'sociedad/tarjetas.html',context)
+
+

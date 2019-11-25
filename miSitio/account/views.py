@@ -911,7 +911,7 @@ class SettingsView(LoginRequiredMixin, FormView):
         initial["division"] = [c.pk for c in self.request.user.account.division.filter()]
         initial["ocupacion"] = self.request.user.account.ocupacion
         initial["tipo_domicilio"] = self.request.user.account.tipo_domicilio
-        initial["publicacion"] = [c.pk for c in self.request.user.account.publicacion.filter()]
+        initial["publicacion"] =  self.request.user.account.publicacion
         initial["telefono"] = self.request.user.account.telefono
         #initial["domicilio_profesional"] = self.request.user.account.domicilio_profesional.codigo_institucion
         return initial
