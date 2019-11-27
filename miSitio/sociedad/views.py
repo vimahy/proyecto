@@ -342,7 +342,7 @@ def editar_socio(request, pk):
     user_form = UserForm(instance=user)
     # The sorcery begins from here, see explanation below
     ProfileInlineFormset = inlineformset_factory(User,Account , fields=( 'apellido_materno','sexo',
-        'grado_academico','institucion','publicacion','calidad','telefono','division'),can_delete=False)
+        'grado_academico','institucion','publicacion','tipo_domicilio','calidad','telefono','division'),can_delete=False)
     formset = ProfileInlineFormset(instance=user)
     if usuario.groups.filter(name='secretaria').exists():
         if request.user.is_authenticated: #and request.user.id == user.id:

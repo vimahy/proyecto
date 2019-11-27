@@ -250,7 +250,7 @@ class Account(models.Model):
                                         blank=True,
                                         null=True,)
     fotografia = models.ImageField(upload_to='socios/Fotos',
-                                default='static/default-profile.png',)
+                                default='static/default-profile.png')
     fecha_nacimiento = models.DateField(null=True,
                                         blank=True,)
     sexo = models.CharField(max_length=1,
