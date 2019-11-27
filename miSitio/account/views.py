@@ -997,10 +997,9 @@ class SettingsView(LoginRequiredMixin, FormView):
             fields["publicacion"] = form.cleaned_data["publicacion"]
         if fields:
             user = self.request.user
-            account = self.request.user.account
             for k, v in fields.items():
                 setattr(user, k, v)
-                setattr(account, k, v)
+                setattr(account, k,v)
             user.save()
             account.save()
 

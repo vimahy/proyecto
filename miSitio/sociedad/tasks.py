@@ -35,6 +35,8 @@ def some_task():
     print("HOLLAAA")
     # do something
 
+
+
 @periodic_task(run_every=crontab(minute=0, hour=0), name="prueba", ignore_result=True)
 def every_monday_morning():
     print("Execute every day at 7:30AM.")
