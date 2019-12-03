@@ -43,19 +43,37 @@ def every_monday_morning():
 
 #Funcion que envia correos de recordatotio
 
+
+#Solo tomamos en cuenta a los socios con cuotas vigentes
+todos= Account.objects.filter(cuota__fecha_fin__gte=hoy).distinct()
 @periodic_task(run_every=crontab(minute=0, hour=7), name="recordatorio", ignore_result=True)
-def recordatorio_cuota():
-    for a in todos:
-        cuota = a.cuota_set.last()
-        ultima = cuota.fecha_fin
-        fecha_limite = hoy + timedelta(days=1)
-        fecha_anticipada = hoy + timedelta(days=15)
-        if fecha_limite > ultima:
-            print("Mndar mensaje 15 dias faltantes")
-            print(ultima)
-        elif fecha_limite > ultima:
-            print("Mandar mensaje final")
-            print(ultima)
+def recordatorio_cuota(todos):
+    subject = "Su cumbrecia esta a punto de vencer"
+    from_email = 'smf.soporte@ciencias.unam.mx'
+    primer_recordatorio = '/home/victor/proyecto/miSitio/miSitio/templates/base.html'
+    segundo_recordatorio = '/home/victor/proyecto/miSitio/miSitio/templates/base.html'
+    for socio in todos:
+        ctx = {
+        "username": socio.user.first_name,
+        "last_name": socio.user.last_name
+        }
+        # Hay socios sin correo
+        if socio.user.email == ' ' or socio.user.email == '  ':
+            pass
         else:
-            print("Aun no vence")
-            print (ultima)
+            cuota = socio.cuota_set.last()
+            ultima = cuota.fecha_fin
+            to = to =[socio.user.email]
+            if ultima -hoy == datetime.timedelta(15):
+                print("Mndar mensaje 15 dias faltantes")
+                message = render_to_string(primer_recordatorio, ctx)
+                msg = EmailMessage(subject, message,to=to, from_email= from_email)
+                msg.send()
+            elif ultima -hoy ==datetime.timedelta(1):
+                print("Mandar mensaje final")
+                print(ultima)
+                message = render_to_string(segundo_recordatorio, ctx)
+                msg = EmailMessage(subject, message,to=to,from_email=from_email)
+                msg.send()
+            else:
+                pass
