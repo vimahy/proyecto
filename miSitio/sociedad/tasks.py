@@ -1,20 +1,15 @@
+import django
+import time
+
 from celery.task.schedules import crontab
 from celery.decorators import periodic_task
-import django
 from datetime import datetime, timedelta
-
-
 from account.models import*
 from django.contrib.auth.models import User
-from account.models import*
 from account.models import*
 from django.template.loader import render_to_string, get_template
 from django.core.mail import EmailMessage
 from django.core.mail import send_mail
-
-
-
-import time
 
 
 
@@ -47,8 +42,10 @@ def every_monday_morning():
 #Solo tomamos en cuenta a los socios con cuotas vigentes
 todos= Account.objects.filter(cuota__fecha_fin__gte=hoy).distinct()
 @periodic_task(run_every=crontab(minute=0, hour=7), name="recordatorio", ignore_result=True)
-def recordatorio_cuota(todos):
-    subject = "Su cumbrecia esta a punto de vencer"
+def recordatorio_cuota():
+    hoy = datetime.date.today()
+    todos= Account.objects.filter(cuota__fecha_fin__gte=hoy).distinct()
+    subject = "Su membrecia esta a punto de vencer"
     from_email = 'smf.soporte@ciencias.unam.mx'
     primer_recordatorio = '/home/victor/proyecto/miSitio/miSitio/templates/base.html'
     segundo_recordatorio = '/home/victor/proyecto/miSitio/miSitio/templates/base.html'
