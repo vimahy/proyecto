@@ -19,7 +19,7 @@ jsonfield==2.0.2
 kombu==4.6.6
 Markdown==3.1.1
 more-itertools==7.2.0
-Pillow==6.2.1
+Pillow==9.3.0
 pinax-eventlog==1.1.2
 pinax-theme-bootstrap==8.0.1
 pinax-webanalytics==3.0.0
